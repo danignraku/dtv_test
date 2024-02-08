@@ -13,6 +13,13 @@ st.set_page_config(
     }
 )
 
+list_of_roles = {
+    "User1": "A",
+    "User2": "B",
+    "admin": "admin",
+    "User3": "C"
+}
+
 from yaml.loader import SafeLoader
 
 with open('config.yaml') as file:
@@ -32,8 +39,10 @@ if st.session_state["authentication_status"]:
 
     CSV_URL = 'dtv_data.csv'
     df = pd.read_csv(CSV_URL, sep=";")
-    if st.session_state["role"] != 'admin':
-        df = df[df["role"] == st.session_state["role"]]
+    role = list_of_roles[st.session_state["name"]]
+    if role != 'admin':
+        df = df[df["ROLE"] == role].drop(columns=["ROLE"])
+        df = df.reset_index()
     new_dfs, _ = spreadsheet(df)
     st.write(new_dfs)
 elif st.session_state["authentication_status"] == False:

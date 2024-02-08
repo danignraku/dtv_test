@@ -13,6 +13,10 @@ credentials:
       name: User2
       role: B
       password: $2b$12$skNdP1D7xj.gs2JGyo2m/uas8up7xCLXIOotGjIzan.uQl4Bd8uH6
+    admin:
+      name: admin
+      role: admin
+      password: $2b$12$eVnUMKr9Us7H0sS/FyRi6O3yYTs5tmzPhA3wP2WmXin0941283UZS
 cookie:
   expiry_days: 30
   key: random_signature_key # Must be string
