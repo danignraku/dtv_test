@@ -1,3 +1,6 @@
+page_title: DTV Demo
+layout: wide
+initial_sidebar_state: expanded
 credentials:
   usernames:
     user1:
