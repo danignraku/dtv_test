@@ -1,0 +1,19 @@
+credentials:
+  usernames:
+    user1:
+      email: user1@gmail.com
+      name: User1
+      role: A
+      password: $2b$12$eVnUMKr9Us7H0sS/FyRi6O3yYTs5tmzPhA3wP2WmXin0941283UZS
+    user2:
+      email: user2@gmail.com
+      name: User2
+      role: B
+      password: $2b$12$skNdP1D7xj.gs2JGyo2m/uas8up7xCLXIOotGjIzan.uQl4Bd8uH6
+cookie:
+  expiry_days: 30
+  key: random_signature_key # Must be string
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - dani.gutn@gmail.com
