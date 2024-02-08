@@ -3,6 +3,15 @@ import streamlit_authenticator as stauth
 from mitosheet.streamlit.v1 import spreadsheet
 import yaml
 
+st.set_page_config(
+        page_title="DTV Demo",
+        layout="wide",
+        initial_sidebar_state="expanded",
+        menu_items={
+            'About': "# Example of a DTV Demo!"
+        }
+    )
+
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
