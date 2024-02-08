@@ -30,7 +30,7 @@ if st.session_state["authentication_status"]:
     st.write(f'Welcome *{name}*')
 
 
-    CSV_URL = 'https://raw.githubusercontent.com/plotly/datasets/master/tesla-stock-price.csv'
+    CSV_URL = 'dtv_data.csv'
     new_dfs, _ = spreadsheet(CSV_URL)
 
     st.write(new_dfs)
