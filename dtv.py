@@ -31,7 +31,7 @@ if st.session_state["authentication_status"]:
     st.write(f'Welcome *{name}*')
 
     CSV_URL = 'dtv_data.csv'
-    df = pd.read_csv(CSV_URL)
+    df = pd.read_csv(CSV_URL, sep=";")
     if st.session_state["role"] != 'admin':
         df = df[df["role"] == st.session_state["role"]]
     new_dfs, _ = spreadsheet(df)
