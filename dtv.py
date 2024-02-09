@@ -1,8 +1,8 @@
-import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
-from mitosheet.streamlit.v1 import spreadsheet
+
+from data_visualization import schedule, content, daily
 
 st.set_page_config(
     page_title="DTV Demo",
@@ -12,13 +12,6 @@ st.set_page_config(
         'About': "# Example of a DTV Demo!"
     }
 )
-
-list_of_roles = {
-    "User1": "A",
-    "User2": "B",
-    "admin": "admin",
-    "User3": "C"
-}
 
 from yaml.loader import SafeLoader
 
@@ -34,17 +27,32 @@ authenticator = stauth.Authenticate(
 )
 name, authentication_status, username = authenticator.login('main')
 if st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'main')
-    st.write(f'Welcome *{name}*')
 
-    CSV_URL = 'dtv_data.csv'
-    df = pd.read_csv(CSV_URL, sep=";")
-    role = list_of_roles[st.session_state["name"]]
-    if role != 'admin':
-        df = df[df["ROLE"] == role].drop(columns=["ROLE"])
-        df = df.reset_index()
-    new_dfs, _ = spreadsheet(df)
-    st.write(new_dfs)
+    with st.sidebar:
+        authenticator.logout('Logout', 'main')
+        st.write(f'Welcome *{name}*')
+        st.header("Configuration")
+        view_options = ("schedules", "content", "daily data")
+        selected_api = st.selectbox(
+            label="Choose your data visualization:",
+            options=view_options,
+        )
+
+        demo = schedule if selected_api == "schedules" else content if selected_api == "content" else daily
+
+    df = demo(st.session_state["name"])
+    st.markdown("""---""")
+    st.download_button(
+        "Download :floppy_disk:",
+        df.to_csv(index=False).encode('utf-8'),
+        f"{selected_api}.csv",
+        "text/csv",
+        key='download-csv',
+        type='primary'
+    )
+
+
+
 elif st.session_state["authentication_status"] == False:
     st.error('Username/password is incorrect')
 elif st.session_state["authentication_status"] == None:
