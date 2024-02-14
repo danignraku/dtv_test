@@ -1,6 +1,9 @@
+import csv
+
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
+from yaml.loader import SafeLoader
 
 from data_visualization import schedule, content, daily
 
@@ -12,8 +15,6 @@ st.set_page_config(
         'About': "# Example of a DTV Demo!"
     }
 )
-
-from yaml.loader import SafeLoader
 
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -44,16 +45,15 @@ if st.session_state["authentication_status"]:
     st.markdown("""---""")
     st.download_button(
         "Download :floppy_disk:",
-        df.to_csv(index=False).encode('utf-8'),
+        df.to_csv(index=False, sep=",", escapechar='"', quoting=csv.QUOTE_NONNUMERIC,doublequote=False).encode('utf-8'),
         f"{selected_api}.csv",
         "text/csv",
         key='download-csv',
         type='primary'
     )
+    df.to_csv()
 
-
-
-elif st.session_state["authentication_status"] == False:
+elif not st.session_state["authentication_status"]:
     st.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] == None:
+elif st.session_state["authentication_status"] is None:
     st.warning('Please enter your username and password')
